@@ -23,9 +23,13 @@ LED_SRC = mailbox_led_test.c
 LED_TARGET = mailbox_led
 LED_OBJ = $(LED_SRC:.c=.o) # This generates mailbox_led_test.o
 
+CREATE_SRC = mailbox_create_test.c
+CREATE_TARGET = mailbox_create
+CREATE_OBJ = $(CREATE_SRC:.c=.o) # This generates mailbox_create_test.o
+
 # Define an 'all' target to build both by default
 .PHONY: all
-all: $(PINGPONG_TARGET) $(LED_TARGET)
+all: $(PINGPONG_TARGET) $(LED_TARGET) $(CREATE_TARGET)
 
 # Rule to build the pingpong test executable
 $(PINGPONG_TARGET): $(PINGPONG_OBJ)
@@ -35,6 +39,10 @@ $(PINGPONG_TARGET): $(PINGPONG_OBJ)
 $(LED_TARGET): $(LED_OBJ)
 	$(CC) $(CFLAGS) -o $@ $< $(LDFLAGS)
 
+# Rule to build the led test executable
+$(CREATE_TARGET): $(CREATE_OBJ)
+	$(CC) $(CFLAGS) -o $@ $< $(LDFLAGS)
+
 # Generic rule to compile .c files into .o files
 # This rule will apply to both pingpong and led source files
 %.o: %.c
@@ -42,6 +50,5 @@ $(LED_TARGET): $(LED_OBJ)
 
 .PHONY: clean
 clean:
-	@rm -f $(PINGPONG_OBJ) $(LED_OBJ)
-	@rm -f $(PINGPONG_TARGET) $(LED_TARGET)
-
+	@rm -f $(PINGPONG_OBJ) $(LED_OBJ) $(CREATE_OBJ)
+	@rm -f $(PINGPONG_TARGET) $(LED_TARGET) $(CREATE_TARGET)
